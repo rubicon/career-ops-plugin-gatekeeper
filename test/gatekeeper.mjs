@@ -81,4 +81,39 @@ assert.equal(years.yearsSignal, true, 'resume mentions >= 8 years somewhere');
 const noYears = matchRequirement('15+ years required.', '5 years of experience', []);
 assert.equal(noYears.yearsSignal, false, 'resume max years below the minimum -> false');
 
+import { buildGatekeeperScaffold } from '../lib/gatekeeper.mjs';
+
+const CV_FULL = `# Jordan Vale
+
+## Experience
+
+### Brightpath Software
+
+**Director of Revenue Operations**
+
+- Built Salesforce reporting and ran quarterly planning and OKRs across four teams.
+- 12 year career in revenue operations.
+`;
+
+const scaffold = buildGatekeeperScaffold(JD, CV_FULL);
+
+assert(/^# Gatekeeper coverage scaffold/m.test(scaffold), 'has the title heading');
+assert(/Northwind Software/.test(scaffold), 'names the company');
+assert(/## Requirement coverage/.test(scaffold), 'has the coverage table section');
+assert(/## Keyword gaps/.test(scaffold), 'has the keyword-gaps section');
+assert(/\| Status \|/.test(scaffold), 'coverage table has a Status column');
+assert(/absent/.test(scaffold), 'the SQL/data-warehouse requirement lands as absent');
+assert(/deterministic first-pass/i.test(scaffold), 'carries the honesty disclaimer');
+
+// digest widens the evidence corpus and is named in Sources read.
+const withDigest = buildGatekeeperScaffold(JD, CV_FULL, 'Deep experience with SQL and Snowflake.');
+assert(/article-digest\.md/.test(withDigest), 'names the digest when supplied');
+
+// Deterministic: identical input -> identical output.
+assert.equal(
+  buildGatekeeperScaffold(JD, CV_FULL),
+  buildGatekeeperScaffold(JD, CV_FULL),
+  'output is deterministic for identical input',
+);
+
 console.log('✓ parseJd ok');
