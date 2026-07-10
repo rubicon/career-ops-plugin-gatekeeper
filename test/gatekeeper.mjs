@@ -140,6 +140,20 @@ assert(
   'evidence snippet strips leading block markers',
 );
 
+// A leading "#1"/"-5%" is not a block marker (no following space) and must be
+// preserved verbatim: the tool presents evidence for an anti-fabrication screen,
+// so it must never silently alter a candidate's real claim.
+const rankCv = ['#1 sales rep nationally, exceeded quota by 40%.'];
+const rankMatch = matchRequirement(
+  'Sales quota attainment.',
+  rankCv.join('\n').toLowerCase(),
+  rankCv,
+);
+assert(
+  rankMatch.evidence && /^#1 sales/.test(rankMatch.evidence),
+  'a leading "#1" ranking (not a block marker) is preserved',
+);
+
 const pipeScaffold = buildGatekeeperScaffold(
   '## Requirements\n\n- Build A | B | C pipelines in Salesforce.',
   CV_FULL,
