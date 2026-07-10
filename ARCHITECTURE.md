@@ -72,6 +72,16 @@ on when it runs. The date exists only so that re-running the hook on a
 different day does not silently overwrite yesterday's screen; the scaffold
 content itself carries no date and stays deterministic.
 
+The date is a calendar date, not an instant: a screen is a real-world event, so
+the filename carries the user's local calendar date (`YYYY-MM-DD`), never a UTC
+instant. A UTC date would roll a day early for an evening run west of Greenwich.
+The `today()` helper formats with `Intl.DateTimeFormat('en-CA', { timeZone })`
+rather than hand-rolled offset math, using the optional `time_zone` setting (an
+IANA zone id) and falling back to the host's local zone, so it stays correct
+across daylight-saving transitions and when the host runtime zone is not the
+user's. `today()` is exported and takes the instant as an argument so the
+local-versus-UTC behavior is unit-tested directly.
+
 ## Registry constraints
 
 The career-ops plugin registry statically audits plugin source and rejects:

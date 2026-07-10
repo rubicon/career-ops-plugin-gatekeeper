@@ -75,12 +75,15 @@ plugins:
 
 Settings under `plugins.gatekeeper` in `config/plugins.yml`:
 
-| Setting       | Default             | Meaning                                                       |
-| ------------- | ------------------- | ------------------------------------------------------------- |
-| `jd_path`     | (required)          | The job description file, relative to the project root        |
-| `cv_path`     | `cv.md`             | The resume being screened                                     |
-| `digest_path` | `article-digest.md` | Optional supplementary evidence that widens the search corpus |
-| `output_dir`  | `output`            | Where the coverage scaffold is written                        |
+| Setting       | Default             | Meaning                                                                                 |
+| ------------- | ------------------- | --------------------------------------------------------------------------------------- |
+| `jd_path`     | (required)          | The job description file, relative to the project root                                  |
+| `cv_path`     | `cv.md`             | The resume being screened                                                               |
+| `digest_path` | `article-digest.md` | Optional supplementary evidence that widens the search corpus                           |
+| `output_dir`  | `output`            | Where the coverage scaffold is written                                                  |
+| `time_zone`   | (host zone)         | Optional IANA zone (e.g. `America/Chicago`) for the local calendar date in the filename |
+
+The filename date is the local calendar date (`YYYY-MM-DD`) for the day the screen is run. It is formatted with `Intl.DateTimeFormat` in the `time_zone` above, falling back to the host's local zone. It is never a UTC instant, so an evening run does not roll the date forward a day.
 
 ## What the scaffold contains
 
