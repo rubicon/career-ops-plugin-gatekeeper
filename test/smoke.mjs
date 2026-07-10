@@ -93,4 +93,24 @@ try {
   rmSync(tmp, { recursive: true, force: true });
 }
 
+// --- today(): local calendar date, IANA-zone aware (issue #9) ---------------
+assert.equal(typeof mod.today, 'function', 'today is exported for testing');
+const eveningCentral = new Date('2026-07-11T02:30:00Z'); // 9:30 PM CDT on Jul 10
+assert.equal(
+  mod.today('America/Chicago', eveningCentral),
+  '2026-07-10',
+  'an evening US-Central instant dates to the local day, not the UTC day',
+);
+assert.equal(mod.today('UTC', eveningCentral), '2026-07-11', 'the UTC zone dates to the UTC day');
+assert.match(
+  mod.today(undefined, eveningCentral),
+  /^\d{4}-\d{2}-\d{2}$/,
+  'the default host zone yields a YYYY-MM-DD date',
+);
+assert.equal(
+  mod.today('Not/AZone', eveningCentral),
+  mod.today(undefined, eveningCentral),
+  'an invalid zone falls back to the host local date',
+);
+
 console.log('✓ smoke ok:', keys.join(', '));

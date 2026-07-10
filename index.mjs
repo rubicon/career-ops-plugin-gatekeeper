@@ -46,16 +46,26 @@ function containedPath(root, rel) {
 }
 
 /**
- * Today's date as YYYY-MM-DD. Impure and used only for the output filename; the
- * scaffold content itself is date-free and deterministic.
+ * Today's calendar date as YYYY-MM-DD for the output filename. A screen is a
+ * real-world event, so the filename carries the user's local calendar date, not
+ * a UTC instant (a UTC date would roll a day early for an evening run west of
+ * Greenwich). The zone is the optional IANA `time_zone` setting, else the host
+ * local zone; an invalid zone falls back to local. Formatted with Intl (which
+ * handles the zone and DST) rather than hand-rolled offset math. Impure and
+ * filename-only; the engine (lib/gatekeeper.mjs) stays date-free.
+ *
+ * @param {string} [timeZone] - IANA zone id, e.g. "America/Chicago".
+ * @param {Date} [now] - the instant to format; defaults to the current time.
  * @returns {string}
  */
-function today() {
-  const d = new Date();
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, '0');
-  const day = String(d.getDate()).padStart(2, '0');
-  return `${y}-${m}-${day}`;
+export function today(timeZone, now = new Date()) {
+  const base = { year: 'numeric', month: '2-digit', day: '2-digit' };
+  // en-CA renders as YYYY-MM-DD. An invalid IANA zone throws, so fall back local.
+  try {
+    return new Intl.DateTimeFormat('en-CA', timeZone ? { ...base, timeZone } : base).format(now);
+  } catch {
+    return new Intl.DateTimeFormat('en-CA', base).format(now);
+  }
 }
 
 export default {
@@ -116,7 +126,9 @@ export default {
     }
 
     const company = parseJd(jdText).company;
-    const outPath = path.join(outDir, `gatekeeper-${slug(company)}-${today()}.md`);
+    const timeZone =
+      typeof settings.time_zone === 'string' && settings.time_zone ? settings.time_zone : undefined;
+    const outPath = path.join(outDir, `gatekeeper-${slug(company)}-${today(timeZone)}.md`);
     const relOut = path.relative(root, outPath);
 
     if (ctx && ctx.dryRun) {
