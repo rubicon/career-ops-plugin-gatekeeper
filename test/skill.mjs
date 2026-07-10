@@ -20,7 +20,9 @@ assert(/never resurface|never resurfaces/i.test(skill), 'retracted claims never 
 // Guardrail 2: decorum.
 assert(/attack the resume/i.test(skill), 'decorum: attack the resume');
 assert(/never the person/i.test(skill), 'decorum: never the person');
-assert(/no (crass|ad-hominem)/i.test(skill), 'decorum: bans crass/ad-hominem register');
+for (const term of ['crass', 'demeaning', 'sarcastic', 'ad-hominem']) {
+  assert(new RegExp(term, 'i').test(skill), `decorum: must ban "${term}"`);
+}
 
 // The seven required output sections.
 for (const marker of [

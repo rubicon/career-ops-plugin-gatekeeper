@@ -70,6 +70,13 @@ try {
     'a dated gatekeeper scaffold was written',
   );
 
+  // jd_path pointing at a file that does not exist -> pushed 0, no throw.
+  const missingJd = await hooks.export(null, {
+    settings: { jd_path: 'nope-does-not-exist.md', cv_path: 'cv.md' },
+    log: () => {},
+  });
+  assert.equal(missingJd.pushed, 0, 'jd_path pointing at a missing file -> pushed 0');
+
   // Path traversal is refused.
   let threw = false;
   try {

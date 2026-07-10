@@ -140,4 +140,22 @@ assert(
   'evidence snippet strips leading block markers',
 );
 
+const pipeScaffold = buildGatekeeperScaffold(
+  '## Requirements\n\n- Build A | B | C pipelines in Salesforce.',
+  CV_FULL,
+);
+assert(
+  pipeScaffold.includes('A \\| B \\| C'),
+  'pipes in a requirement are escaped in the table cell',
+);
+
+const gapsNoDigest = buildGatekeeperScaffold(JD, CV_FULL).split('## Keyword gaps')[1];
+assert(/\bsql\b/i.test(gapsNoDigest), 'sql is a keyword gap without a digest');
+const gapsWithDigest = buildGatekeeperScaffold(
+  JD,
+  CV_FULL,
+  'Built SQL pipelines on a Snowflake data-warehouse.',
+).split('## Keyword gaps')[1];
+assert(!/\bsql\b/i.test(gapsWithDigest), 'a digest supplying SQL removes it from the keyword gaps');
+
 console.log('✓ parseJd ok');
