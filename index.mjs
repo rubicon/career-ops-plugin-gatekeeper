@@ -1,22 +1,22 @@
 // @ts-check
-// example — a career-ops plugin.
-// Guide: https://github.com/santifer/career-ops/blob/main/docs/PLUGINS.md
+// career-ops-plugin-gatekeeper: run a one-shot adversarial resume screen for a
+// specific job. Walking skeleton — the real engine is wired in Task 5.
 //
-// Rules the engine enforces for you:
-//  - Egress ONLY through ctx.fetch / ctx.fetchJson / ctx.fetchText (your manifest
-//    `allowedHosts` is applied + SSRF-guarded). Do NOT import node:http/net or
-//    call global fetch — community plugins are rejected for that.
-//  - Producers (provider/ingest/search) RETURN Job[] = { title, url, company, location };
-//    the engine writes them to the pipeline. Consumers (export/notify) push to
-//    the user's own store. There is no auto-submit hook.
-//  - Keys come from ctx.env (declare them in manifest.requiredEnv); non-secret
-//    settings come from ctx.settings (the user's config/plugins.yml block).
+// Local, no-network, no-key plugin. Uses the `export` hook (the consumer hook
+// that produces an artifact). It ignores the tracker snapshot on purpose: a
+// screen is about the JD and cv.md, not the pipeline.
+//
+// Registry rules honored: no bare (npm) imports, no network, no child_process.
 
 export default {
-  // Replace/add hooks to match manifest.hooks. Example ingest:
-  async ingest(ctx) {
-    // const data = await ctx.fetchJson('https://api.example.com/jobs');
-    // return data.results.map(j => ({ title: j.title, url: j.url, company: j.company, location: j.location || '' }));
-    return [];
+  /**
+   * @param {Readonly<object>} _snapshot - Tracker snapshot (unused: a screen reads the JD + cv.md, not the pipeline).
+   * @param {{settings?: Record<string, unknown>, log?: (...a: unknown[]) => void, dryRun?: boolean}} ctx
+   * @returns {Promise<{pushed: number}>}
+   */
+  async export(_snapshot, ctx) {
+    const log = (ctx && ctx.log) || console.log;
+    log('gatekeeper: not yet implemented.');
+    return { pushed: 0 };
   },
 };
