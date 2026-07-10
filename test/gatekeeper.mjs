@@ -116,4 +116,28 @@ assert.equal(
   'output is deterministic for identical input',
 );
 
+const proseJd = parseJd('# Data Engineer\n\n## Must haves\n\nYou must know Kubernetes and Docker.');
+assert(
+  proseJd.requirements.every((r) => !/^#/.test(r)),
+  'heading lines are not captured as requirements',
+);
+assert(
+  proseJd.requirements.some((r) => /Kubernetes/.test(r)),
+  'the prose signal line is still captured',
+);
+
+const blockCv = [
+  '#### NorthStar Analytics -- Interim VP Operations',
+  '- Owned quarterly planning and OKRs.',
+];
+const blockMatch = matchRequirement(
+  'Quarterly planning and OKRs.',
+  blockCv.join('\n').toLowerCase(),
+  blockCv,
+);
+assert(
+  blockMatch.evidence && !/^[-*#]/.test(blockMatch.evidence),
+  'evidence snippet strips leading block markers',
+);
+
 console.log('✓ parseJd ok');
