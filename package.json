@@ -1,6 +1,6 @@
 {
   "name": "career-ops-plugin-gatekeeper",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Hardball: a JD-specific, one-shot adversarial resume screen that role-plays the skeptical hiring manager to try to screen you out, then returns only truthful fixes.",
   "license": "MIT",
   "author": "Dax Davis <dax@rubicontv.com>",

@@ -1,10 +1,12 @@
 {
   "id": "gatekeeper",
   "name": "career-ops-plugin-gatekeeper",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "apiVersion": 1,
   "description": "Hardball: a JD-specific, one-shot adversarial resume screen that role-plays the skeptical hiring manager to try to screen you out, then returns only truthful fixes.",
-  "hooks": ["export"],
+  "hooks": [
+    "export"
+  ],
   "requiredEnv": [],
   "allowedHosts": [],
   "skill": "skill.md",
