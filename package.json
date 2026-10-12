@@ -26,7 +26,8 @@
     "node": ">=18"
   },
   "scripts": {
-    "test": "node test/gatekeeper.mjs && node test/skill.mjs && node test/smoke.mjs",
+    "validate:changelog": "node scripts/validate-changelog.mjs",
+    "test": "node test/gatekeeper.mjs && node test/skill.mjs && node test/smoke.mjs && node test/validate-changelog.test.mjs",
     "screen": "node bin/generate-gatekeeper.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
