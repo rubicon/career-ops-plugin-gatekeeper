@@ -5,7 +5,7 @@ All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.1.1](https://github.com/rubicon/career-ops-plugin-gatekeeper/compare/v0.1.0...v0.1.1) (2026-08-03)
+## [0.1.1] - 2026-08-03
 
 
 ### Features
@@ -27,8 +27,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * only strip real block markers (followed by whitespace) from evidence ([5fa349f](https://github.com/rubicon/career-ops-plugin-gatekeeper/commit/5fa349f844922001d06770272dd1568f8e0a3ba9))
 * use ASCII punctuation in the skill and scaffold output ([0fd26c6](https://github.com/rubicon/career-ops-plugin-gatekeeper/commit/0fd26c661c809eca0094cdbd2deb795b1a1415eb))
 
-## [Unreleased]
-
 ### Added
 
 - One-shot, JD-specific adversarial resume screen, exposed as the `export` hook
@@ -48,3 +46,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   zero-network test suite.
 - Non-personal example fixtures at `examples/jd-example.md` and
   `examples/cv-fractional-example.md`.
+
+[Unreleased]: https://github.com/rubicon/career-ops-plugin-gatekeeper/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/rubicon/career-ops-plugin-gatekeeper/releases/tag/v0.1.1
